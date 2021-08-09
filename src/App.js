@@ -19,14 +19,14 @@ const columns = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
-    render(text, record, index) {
-      return {
-        props: {
-          style: { textTransform: index > 4 ? "capitalize" : "uppercase" },
-        },
-        children: <div>{index} {text}</div>,
-      };
-    },
+    // render(text, record, index) {
+    //   return {
+    //     props: {
+    //       style: { textTransform: index > 4 ? "capitalize" : "uppercase" },
+    //     },
+    //     children: <div>{index} {text}</div>,
+    //   };
+    // },
 
 
   },
@@ -78,8 +78,19 @@ class App extends Component {
   componentDidMount() {
     axios.get(`https://jsonplaceholder.typicode.com/users`)
       .then(res => {
+
+        res.data.forEach(function (data, index) {
+          if (index < 5) {
+            data.name = data.name.toUpperCase();
+          }
+        })
+
+
+
         const userData = res.data;
         this.setState({ userData });
+        console.log(userData)
+   
       })
   }
 
@@ -96,13 +107,13 @@ class App extends Component {
         ))} */}
 
 
-          {/* {
+        {/* {
             this.state.userData.map((data,index)=>(
               <p key={index} style={{textTransform: index < 5 ? "uppercase" : "capitalize" }}>{index} {data.name}</p>
             ))
           } */}
 
-        
+
         <Table columns={columns} dataSource={this.state.userData} size="small" />
 
 
